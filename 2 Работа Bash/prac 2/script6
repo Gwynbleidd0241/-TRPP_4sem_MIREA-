@@ -1,0 +1,11 @@
+#!/bin/bash
+cur_usr=$(whoami)
+dir="$1"
+if [ -d "$dir" ]
+then
+find "$dir" -type f -user "$cur_usr" -perm +111
+else
+echo "$dir not exist"
+fi
+
+

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+current_date_time=$(date)
+users=$(awk -F':' '{ print $1 }' /etc/passwd)
+uptime=$(uptime)
+
+
+echo "Дата и время: $current_date_time" >> output.txt
+echo "Пользователи: $users" >> output.txt
+echo "Uptime: $uptime" >> output.txt
+
+

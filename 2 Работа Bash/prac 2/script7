@@ -1,0 +1,43 @@
+#!/bin/bash
+
+brew update && brew upgrade
+brew install python3
+brew install pipx
+pipx ensurepath
+brew install wget
+
+python3 -m venv blocknote_env
+source blocknote_env/bin/activate
+
+wget https://www.dropbox.com/s/ija7ax3sj6ysb0p/blocknote-master.tar.gz -O blocknote-master.tar.gz
+
+tar -xvf blocknote-master.tar.gz
+
+cd blocknote-master
+
+cat > requirements.txt <<EOL
+asgiref==3.7.2
+Django==5.0.3
+django-ckeditor==6.7.1
+django-js-asset==2.2.0
+django-simple-history==3.5.0
+python-dotenv==1.0.1
+django-tinymce
+pytz==2025.1
+sqlparse==0.4.4
+typing_extensions==4.10.0
+EOL
+
+pip install -r requirements.txt
+mkdir -p apps/todoapp/
+
+cat > apps/todoapp/apps.py <<EOL
+from django.apps import AppConfig
+class BaseConfig(AppConfig):
+    name='todoapp'
+EOL
+
+
+python3 manage.py makemigrations
+python3 manage.py migrate
+python3 manage.py runserver
